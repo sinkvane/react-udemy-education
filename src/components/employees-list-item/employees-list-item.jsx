@@ -1,60 +1,36 @@
-import { Component } from "react";
 import "./employees-list-item.css";
 
-class EmployeesListItem extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            increase: false,
-            stars: false,
-        };
+const EmployeesListItem = (props) => {
+    const { name, salary, onDelete, onToggleProp, increase, rise } = props;
+
+    let classNames = "list-group-item d-flex justify-content-between";
+
+    if (increase) {
+        classNames += " increase";
     }
 
-    onIncrease = () => {
-        this.setState(({ increase }) => ({
-            increase: !increase
-        }));
-    };
-
-    onStar = () => {
-        this.setState(({ stars }) => ({
-            stars: !stars
-        }))
+    if (rise) {
+        classNames += " like";
     }
 
-    render() {
-        const { name, salary, onDelete } = this.props;
-        const { increase } = this.state;
-        const { stars } = this.state;
-        // Выше, мы использовали пропсы в классовом компоненте
-        let classNames = "list-group-item d-flex justify-content-between";
-        if (increase) {
-            classNames += " increase";
-        }
+    return (
+        <li className={classNames}>
+            <span onClick={onToggleProp} data-toggle="rise" className="list-group-item-label">
+                {name}
+            </span>
+            <input type="text" className="list-group-item-input" defaultValue={salary + "$"} />
+            <div className="d-flex justify-content-center align-items-center">
+                <button onClick={onToggleProp} data-toggle="increase" type="button" className="btn-cookie btn-sm ">
+                    <i className="fas fa-cookie"></i>
+                </button>
 
-        if (stars) {
-            classNames += " like";
-        }
-
-        return (
-            <li className={classNames}>
-                <span onClick={this.onStar} className="list-group-item-label">
-                    {name}
-                </span>
-                <input type="text" className="list-group-item-input" defaultValue={salary + "$"} />
-                <div className="d-flex justify-content-center align-items-center">
-                    <button onClick={this.onIncrease} type="button" className="btn-cookie btn-sm ">
-                        <i className="fas fa-cookie"></i>
-                    </button>
-
-                    <button onClick={onDelete} type="button" className="btn-trash btn-sm ">
-                        <i className="fas fa-trash"></i>
-                    </button>
-                    <i className="fas fa-star"></i>
-                </div>
-            </li>
-        );
-    }
-}
+                <button onClick={onDelete} type="button" className="btn-trash btn-sm ">
+                    <i className="fas fa-trash"></i>
+                </button>
+                <i className="fas fa-star"></i>
+            </div>
+        </li>
+    );
+};
 
 export default EmployeesListItem;
